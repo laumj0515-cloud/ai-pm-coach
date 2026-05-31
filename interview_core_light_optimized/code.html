@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Terra Interview - 对话</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400..900;1,400..900&amp;family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-bright": "#2b2b35",
+                "surface-container": "#181920",
+                "inverse-primary": "#545e81",
+                "on-tertiary-fixed": "#402c51",
+                "secondary-fixed": "#dee1f9",
+                "on-primary-container": "#dce2ff",
+                "outline-variant": "#474751",
+                "tertiary": "#f0d7ff",
+                "on-primary-fixed": "#293354",
+                "primary": "#bbc5ee",
+                "outline": "#747480",
+                "on-error": "#490013",
+                "error-container": "#871c34",
+                "on-tertiary": "#5d476f",
+                "on-surface": "#e5e4f1",
+                "on-surface-variant": "#abaab6",
+                "error": "#f97386",
+                "tertiary-container": "#e4c7f6",
+                "surface-container-low": "#121319",
+                "error-dim": "#c44b5f",
+                "surface-container-high": "#1e1f27",
+                "on-tertiary-fixed-variant": "#5e486f",
+                "surface-container-highest": "#24252e",
+                "surface": "#0d0e12",
+                "primary-fixed": "#c6d0fa",
+                "inverse-surface": "#fbf8ff",
+                "surface-tint": "#bbc5ee",
+                "surface-container-lowest": "#000000",
+                "surface-variant": "#24252e",
+                "primary-dim": "#adb7e0",
+                "on-error-container": "#ff97a3",
+                "secondary-dim": "#b4b8cf",
+                "on-secondary-fixed-variant": "#565b6f",
+                "on-tertiary-container": "#543f65",
+                "background": "#0d0e12",
+                "on-background": "#e5e4f1",
+                "secondary": "#c2c5dd",
+                "inverse-on-surface": "#55545a",
+                "primary-container": "#475174",
+                "on-secondary-container": "#bbbed5",
+                "on-secondary": "#3b3f52",
+                "tertiary-fixed": "#e4c7f6",
+                "tertiary-fixed-dim": "#d5bae8",
+                "surface-dim": "#0d0e12",
+                "secondary-container": "#363b4d",
+                "primary-fixed-dim": "#b8c2eb",
+                "on-primary": "#353f61",
+                "on-secondary-fixed": "#3a3e51",
+                "on-primary-fixed-variant": "#454f72",
+                "secondary-fixed-dim": "#d0d3eb",
+                "tertiary-dim": "#d5bae8"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "full": "9999px"
+        },
+        "spacing": {},
+        "fontFamily": {
+                "headline": [
+                        "Literata"
+                ],
+                "display": [
+                        "Literata"
+                ],
+                "body": [
+                        "Nunito Sans"
+                ],
+                "label": [
+                        "Nunito Sans"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+<style>
+        body { font-family: 'Nunito Sans', sans-serif; }
+        h1, h2, h3 { font-family: 'Literata', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .mic-active-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .message-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #747480; border-radius: 10px; }
+        
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col transition-colors duration-300">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 z-50 bg-background flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZsPmpkWcGWXFElLxdl1ySs4Em0czRzND0Dmb_9iBfVv7NlxBLaxLpE3aZQ_j0UEZEKReQ61-NwIXpL_S7X1hakgJxpFFstXbRunbT7Xq206S02M7_yN3zxg5mBfkjPYm8-MqQMtpmj8OfwED7VikNMPwcHfX-O79ZrpI-eZBioY5suodOqydlW0ziaZnTaaYfjGlTrMMWMIme5lbTGwCVrpbm7D185KSkU_T2M6_m0um0gUAbdnjHqKhmIwX-DFSt0rlqmPlalsKe"/>
+</div>
+<span class="font-headline text-xl font-bold text-primary">Terra Interview</span>
+</div>
+<button class="hover:opacity-80 transition-opacity text-primary p-2 rounded-full bg-surface-container-high shadow-sm active:scale-95 transition-transform" id="theme-toggle">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col px-4 pt-4 pb-32 max-w-2xl mx-auto w-full">
+<!-- Interview Intro Card -->
+<div class="mb-8 p-6 bg-surface-container-low rounded-xl message-fade-in border border-outline-variant/30">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div>
+<h2 class="text-xl font-semibold mb-1 text-on-surface">模拟面试：高级产品经理</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                        您好！我是您的面试官。今天我们将探讨您在处理复杂产品架构时的决策逻辑。准备好了吗？
+                    </p>
+</div>
+</div>
+</div>
+<!-- Chat Container -->
+<div class="space-y-6" id="chat-history">
+<!-- Interviewer Message -->
+<div class="flex flex-col items-start message-fade-in">
+<div class="max-w-[85%] bg-surface-container-highest text-on-surface px-5 py-4 rounded-t-xl rounded-br-xl shadow-sm leading-relaxed border border-outline-variant/20">
+                    请谈谈您是如何在多方利益相关者利益冲突时，确定产品路线图优先级的？
+                </div>
+<span class="text-[10px] text-on-surface-variant mt-2 ml-1 font-medium">14:02 · 面试官</span>
+</div>
+<!-- User Transcript (Voice-to-text) -->
+<div class="flex flex-col items-end message-fade-in" style="animation-delay: 0.2s;">
+<div class="max-w-[85%] bg-primary-container text-on-primary-container px-5 py-4 rounded-t-xl rounded-bl-xl shadow-sm leading-relaxed border border-primary/20">
+                    在处理这种冲突时，我通常会采用 RICE 评分模型，结合定性的商业价值评估。首先，我会与各方沟通以对齐核心业务目标，确保大家在同一个北极星指标下进行讨论。
+                </div>
+<div class="flex items-center gap-2 mt-2 mr-1">
+<span class="material-symbols-outlined text-primary text-sm">done_all</span>
+<span class="text-[10px] text-on-surface-variant font-medium">14:03 · 您</span>
+</div>
+</div>
+<!-- Interim Result (Animated) -->
+<div class="hidden flex flex-col items-end opacity-60" id="interim-text">
+<div class="max-w-[85%] border border-dashed border-primary px-5 py-4 rounded-t-xl rounded-bl-xl leading-relaxed italic text-on-surface-variant">
+                    正在倾听...
+                </div>
+</div>
+</div>
+</main>
+<!-- Floating Voice Interaction Section -->
+<div class="fixed bottom-0 left-0 w-full px-6 pb-12 pt-8 bg-gradient-to-t from-background via-background/90 to-transparent flex flex-col items-center gap-6">
+<!-- Status Label -->
+<div class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-medium flex items-center gap-2 shadow-sm" id="status-chip">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+            就绪 · 随时可以开始说话
+        </div>
+<!-- Central Circular Voice Button -->
+<div class="relative">
+<div class="absolute inset-0 rounded-full bg-primary/20 scale-125 hidden mic-active-pulse" id="mic-pulse"></div>
+<button class="relative z-10 w-20 h-20 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-90" id="mic-btn">
+<span class="material-symbols-outlined text-4xl" id="mic-icon" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<!-- Secondary Controls -->
+<div class="flex items-center justify-between w-full max-w-sm">
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">keyboard</span>
+<span class="text-[10px] font-medium">打字</span>
+</button>
+<button class="p-3 text-on-surface-variant hover:text-error transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">stop_circle</span>
+<span class="text-[10px] font-medium">结束面试</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-surface-container-low/95 backdrop-blur-sm shadow-sm rounded-t-2xl md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">mic</span>
+<span class="font-label text-[10px] font-semibold mt-0.5">Interview</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label text-[10px] font-medium mt-0.5">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label text-[10px] font-medium mt-0.5">Settings</span>
+</a>
+</nav>
+<script>
+        const micBtn = document.getElementById('mic-btn');
+        const micIcon = document.getElementById('mic-icon');
+        const micPulse = document.getElementById('mic-pulse');
+        const statusChip = document.getElementById('status-chip');
+        const interimText = document.getElementById('interim-text');
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        let isRecording = false;
+
+        micBtn.addEventListener('click', () => {
+            isRecording = !isRecording;
+            if (isRecording) {
+                micIcon.innerText = 'pause';
+                micPulse.classList.remove('hidden');
+                statusChip.innerHTML = '<span class="w-1.5 h-1.5 bg-error rounded-full animate-ping"></span> 正在录音...';
+                statusChip.className = "bg-error-container text-on-error-container px-4 py-1.5 rounded-full text-xs font-medium flex items-center gap-2 shadow-sm";
+                interimText.classList.remove('hidden');
+            } else {
+                micIcon.innerText = 'mic';
+                micPulse.classList.add('hidden');
+                statusChip.innerHTML = '<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span> 就绪 · 随时可以开始说话';
+                statusChip.className = "bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-medium flex items-center gap-2 shadow-sm";
+                interimText.classList.add('hidden');
+                
+                // Add a dummy message after recording stops
+                setTimeout(() => {
+                    const chatHistory = document.getElementById('chat-history');
+                    const newMsg = document.createElement('div');
+                    newMsg.className = 'flex flex-col items-end message-fade-in';
+                    newMsg.innerHTML = `
+                        <div class="max-w-[85%] bg-primary-container text-on-primary-container px-5 py-4 rounded-t-xl rounded-bl-xl shadow-sm leading-relaxed border border-primary/20">
+                            好的，我明白了。关于这一点，我还想补充一下关于风险控制的看法...
+                        </div>
+                        <div class="flex items-center gap-2 mt-2 mr-1">
+                            <span class="material-symbols-outlined text-primary text-sm">done_all</span>
+                            <span class="text-[10px] text-on-surface-variant font-medium">14:04 · 您</span>
+                        </div>
+                    `;
+                    chatHistory.appendChild(newMsg);
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 400);
+            }
+        });
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const icon = themeToggle.querySelector('.material-symbols-outlined');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.innerText = 'dark_mode';
+            } else {
+                icon.innerText = 'light_mode';
+            }
+        });
+    </script>
+</body></html>
