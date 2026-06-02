@@ -28,7 +28,7 @@ export default function Home() {
     <div className="min-h-screen bg-slate-950 max-w-lg mx-auto">
       {/* Header */}
       <div className="px-5 pt-12 pb-6">
-        <h1 className="text-2xl font-bold text-white mb-1">Stitch</h1>
+        <h1 className="text-2xl font-bold text-white mb-1">AI PM Coach</h1>
         <p className="text-sm text-slate-500">AI 面试训练 · 针对性强化</p>
       </div>
 

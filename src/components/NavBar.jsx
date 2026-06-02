@@ -21,7 +21,7 @@ export default function NavBar({ title, showBack = true, rightAction }) {
         </div>
 
         <h1 className="text-sm font-semibold text-slate-200 text-center flex-1 truncate">
-          {title || 'Stitch'}
+          {title || 'AI PM Coach'}
         </h1>
 
         <div className="w-16 flex justify-end">

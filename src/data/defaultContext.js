@@ -36,7 +36,7 @@ export const defaultProfile = {
 - 因渲染复杂度超出单人能力暂停开发
 - 方法论沉淀直接赋能Tempo的用户体验设计`,
 
-  skills: 'Figma / SQL / Axure / Claude Code / Coze / Stitch / Prompt Engineering / RAG构建 / 微信云开发 / 埋点设计',
+  skills: 'Figma / SQL / Axure / Claude Code / Coze / AI PM Coach / Prompt Engineering / RAG构建 / 微信云开发 / 埋点设计',
 
   filters: `硬性要求：C端/AI应用层/Agent方向，创始人或CEO直聊，10-30人有产品在跑的初创
 直接淘汰：要求LSTM/PyTorch/模型训推、外包性质、大小周、薪资低于1.2万、城市北京/广州/宁波`,
