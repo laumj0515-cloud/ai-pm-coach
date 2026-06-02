@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stitch · AI 面试训练系统 — 产品说明书</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0b1120;
+    --surface: #111827;
+    --surface2: #1a2332;
+    --border: #1e2d3d;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --brand: #6366f1;
+    --brand2: #818cf8;
+    --red: #f87171;
+    --amber: #fbbf24;
+    --emerald: #34d399;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 100px 0 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.25);
+    color: var(--brand2);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .hero h1 span { color: var(--brand2); }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text2);
+    max-width: 520px;
+    margin: 0 auto 32px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--text3);
+  }
+  .hero-meta b { color: var(--text2); font-weight: 600; }
+
+  /* ── Sections ── */
+  section { padding: 80px 0; }
+  section:nth-child(even) { background: var(--surface); }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--brand2);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 600px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  /* ── Cards ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(99,102,241,0.3); }
+  .card-icon { font-size: 28px; margin-bottom: 16px; }
+  .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 13px; color: var(--text3); line-height: 1.7; }
+
+  /* ── Feature rows ── */
+  .feature-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-row:last-child { border-bottom: none; }
+  .feature-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brand2);
+    min-width: 60px;
+  }
+  .feature-text { flex: 1; }
+  .feature-text h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .feature-text p { font-size: 13px; color: var(--text3); }
+  .feature-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-green { background: rgba(52,211,153,0.12); color: var(--emerald); }
+  .badge-red { background: rgba(248,113,113,0.12); color: var(--red); }
+  .badge-amber { background: rgba(251,191,36,0.12); color: var(--amber); }
+
+  /* ── Highlight box ── */
+  .highlight {
+    background: rgba(99,102,241,0.06);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 20px;
+    padding: 32px;
+    margin: 40px 0;
+  }
+  .highlight h4 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .highlight p { font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 32px 0;
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    text-align: center;
+    min-width: 140px;
+    flex: 1;
+  }
+  .flow-step .num {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--brand2);
+  }
+  .flow-step .label {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 6px;
+  }
+  .flow-step .sub {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    color: var(--text3);
+  }
+
+  /* ── Comparison table ── */
+  .compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 32px 0;
+  }
+  .compare th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    font-weight: 600;
+  }
+  .compare td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text3);
+  }
+  .compare tr td:first-child { color: var(--text); font-weight: 500; }
+
+  /* ── Tech stack ── */
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0;
+  }
+  .tech-tag {
+    padding: 8px 18px;
+    border-radius: 100px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--text3);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--brand2); text-decoration: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero { padding: 60px 0 50px; }
+    section { padding: 50px 0; }
+    .feature-row { flex-direction: column; gap: 8px; }
+    .flow { flex-direction: column; }
+    .flow-arrow { justify-content: center; transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">AI PM · 面试训练系统</div>
+    <h1>用 AI 面试官<span>，</span><br>把每一次练习<span>变成进步</span></h1>
+    <p class="hero-sub">
+      专为 AI 产品经理岗位设计的个性化模拟面试工具——知道你做过什么项目、弱点在哪、该怎样改进。
+    </p>
+    <div class="hero-meta">
+      <span>作者 <b>刘美姣</b></span>
+      <span>版本 <b>v1.0</b></span>
+      <span>技术栈 <b>React · DeepSeek API · Web Speech</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ 项目背景 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">01 · 项目背景</div>
+    <h2 class="section-title">为什么需要这个工具</h2>
+    <p class="section-desc">
+      刘美姣，2 年产品经验，正从家居行业转 AI 产品经理。一年 Gap 期独立开发了 Tempo（AI 执行力干预小程序）和 Mibo（AI 情感陪伴 Agent）。求职过程中发现几个核心痛点：
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h4>岗位名不副实</h4>
+        <p>JD 写"应用层 AI PM"，面试问的全是模型层问题（DeepSeek 参数量、embedding 原理）。需要练的是如何识别并优雅地回应——"这不是我该答的方向"。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h4>表达能力弱环</h4>
+        <p>思维强但表达跳跃。面试时容易把内心逻辑密度变成信息过载，说很多但没说到点上。需要训练结构化输出。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h4>数据支撑不够</h4>
+        <p>Tempo 和 Mibo 明明有真实数据和产品沉淀，但面试时无法快速调用。需要反复训练"用数据说话"的肌肉记忆。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <h4>无法模拟真实追问</h4>
+        <p>跟自己练习看不出问题。需要一个严格、会打断、会追问"不够具体"的真实面试官来对练。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 解决方案 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">02 · 解决方案</div>
+    <h2 class="section-title">一个记住你全部底牌<br>的 AI 面试教练</h2>
+    <p class="section-desc">
+      Stitch 不是通用面试题库。它从一开始就知道刘美姣的背景、项目、薄弱点，
+      在每一轮对话中针对性地追问，并在每次回答后给出即时反馈。
+    </p>
+
+    <div class="highlight">
+      <h4>核心设计原则</h4>
+      <p>
+        <strong>不是问题库，而是对话引擎。</strong>
+        它需要听懂你说了什么，判断你是否真的回答到了问题。
+        <br><br>
+        <strong>不是鼓励型，而是严苛型。</strong>
+        因为你对敷衍极敏感，假装满意的反馈对你没用。
+        <br><br>
+        <strong>不止练表达，还练边界感。</strong>
+        遇到模型训推、embedding 这类不属于应用层 PM 的问题，它会告诉你——
+        "这不是你该答的方向"，而不是让你硬撑。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 核心功能 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">03 · 核心功能</div>
+    <h2 class="section-title">五步闭环训练</h2>
+
+    <!-- Flow diagram -->
+    <div class="flow">
+      <div class="flow-step">
+        <div class="num">01</div>
+        <div class="label">选择模式</div>
+        <div class="sub">创始人 / HR / 技术PM / 薪资谈判</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">02</div>
+        <div class="label">AI 提问</div>
+        <div class="sub">基于你的背景深度追问</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">03</div>
+        <div class="label">你回答</div>
+        <div class="sub">文字 / 语音通话 / 长按录音</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">04</div>
+        <div class="label">即时点评</div>
+        <div class="sub">✅好的 ❌改善 💡示范</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">05</div>
+        <div class="label">总结复盘</div>
+        <div class="sub">总分 + 逐题分析 + 薄弱追踪</div>
+      </div>
+    </div>
+
+    <!-- Feature details -->
+    <div style="margin-top: 48px;">
+      <div class="feature-row">
+        <div class="feature-num">01</div>
+        <div class="feature-text">
+          <h4>四种面试模式 <span class="feature-badge badge-green">已上线</span></h4>
+          <p>🚀 初创创始人 — 追问你能不能独立扛事 · 💼 HR 面试官 — 追问 gap 和薪资 · ⚙️ 技术 PM — 深挖产品架构逻辑 · 💰 薪资谈判 — AI 有隐藏预算，模拟真实谈薪</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-num">02</div>
+        <div class="feature-text">
+          <h4>实时反馈系统 <span class="feature-badge badge-green">核心亮点</span></h4>
+          <p>每答完一题立刻收到点评：✅ 哪里好 · ❌ 哪里需要改善（具体到用词） · 💡 更好的答法示范。不等最后一次性复盘，而是每题即时修正。</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-num">03</div>
+        <div class="feature-text">
+          <h4>语音通话模式 <span class="feature-badge badge-green">像打电话</span></h4>
+          <p>支持连续语音对话。3 秒思考停顿自动发送，AI 回复 TTS 朗读。可以做家务时练面试。支持 Chrome / Safari（需 HTTPS）。</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-num">04</div>
+        <div class="feature-text">
+          <h4>个人档案记忆 <span class="feature-badge badge-green">持久化</span></h4>
+          <p>你的背景信息（Tempo、Mibo、Gap 原因、转行逻辑、薪资底线）写入 AI 的 system prompt。每次练习不用重新交代背景，AI 全知道。</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-num">05</div>
+        <div class="feature-text">
+          <h4>进度追踪 <span class="feature-badge badge-amber">迭代中</span></h4>
+          <p>练习次数、平均分、反复出现的薄弱点标签。追踪你在"表达简洁度""数据支撑""逻辑结构""亮点突出"四个维度的进步曲线。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 传统 vs Stitch ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">04 · 为什么不用 ChatGPT 直接练</div>
+    <h2 class="section-title">传统方式 vs Stitch</h2>
+
+    <table class="compare">
+      <tr>
+        <th></th>
+        <th>通用 AI 聊天</th>
+        <th>Stitch</th>
+      </tr>
+      <tr>
+        <td>记住你的项目</td>
+        <td>需要每次重新交代</td>
+        <td>✅ 档案持久注入 system prompt</td>
+      </tr>
+      <tr>
+        <td>追问深度</td>
+        <td>泛泛，不针对个人弱点</td>
+        <td>✅ 知道你的薄弱点，定向深挖</td>
+      </tr>
+      <tr>
+        <td>即时反馈</td>
+        <td>不会主动点评每道题</td>
+        <td>✅ 每答即评 ✅❌💡三色标注</td>
+      </tr>
+      <tr>
+        <td>语音通话</td>
+        <td>不支持连续对话</td>
+        <td>✅ 持续聆听 + TTS 朗读回复</td>
+      </tr>
+      <tr>
+        <td>进度追踪</td>
+        <td>无</td>
+        <td>✅ 分数趋势 + 薄弱点标签</td>
+      </tr>
+      <tr>
+        <td>面试模式</td>
+        <td>需要手动构造 prompt</td>
+        <td>✅ 创始人/HR/技术PM 一键切换</td>
+      </tr>
+      <tr>
+        <td>数据隐私</td>
+        <td>上传云端</td>
+        <td>✅ 全部存本地 localStorage</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 技术架构 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">05 · 技术架构</div>
+    <h2 class="section-title">轻量、离线友好、手机优先</h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">React 18</span>
+      <span class="tech-tag">Vite</span>
+      <span class="tech-tag">Tailwind CSS</span>
+      <span class="tech-tag">DeepSeek API</span>
+      <span class="tech-tag">Web Speech API</span>
+      <span class="tech-tag">localStorage</span>
+      <span class="tech-tag">Netlify</span>
+      <span class="tech-tag">HashRouter</span>
+    </div>
+
+    <div class="card-grid" style="margin-top: 32px;">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h4>AI 引擎</h4>
+        <p>DeepSeek Chat API（OpenAI 兼容）。System prompt 注入个人档案 + 面试官人设，每轮对话带明确指令确保反馈格式稳定。支持自定义 JD 模式。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎤</div>
+        <h4>语音层</h4>
+        <p>浏览器原生 Web Speech API（SpeechRecognition + SpeechSynthesis）。Chrome / Safari 均可使用。3 秒静默阈值自动发送，支持思考停顿。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💾</div>
+        <h4>数据层</h4>
+        <p>全量 localStorage 本地存储 —— 个人档案、API Key、面试记录、评分数据。不上传任何服务器。同一浏览器内持久化。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <h4>部署</h4>
+        <p>Vite 构建为纯静态文件 → Netlify 自动部署。Git push 即上线。自带 HTTPS，Safari 语音功能可用。国内无需翻墙访问。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 落地截图区域 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">06 · 界面预览</div>
+    <h2 class="section-title">移动端优先，暗色主题</h2>
+    <p class="section-desc">
+      设计语言：深空蓝黑底色 + 靛蓝品牌色 + 红/绿/琥珀三色反馈系统。全圆角、低视觉噪音，模拟真实聊天体验。
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 8px;">🏠</div>
+        <h4>首页 · 模式选择</h4>
+        <p>四种模式卡片 + 练习统计 + 个人档案入口</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 8px;">💬</div>
+        <h4>面试对话页</h4>
+        <p>聊天界面 + 🎙语音按钮 + ✅❌💡三色反馈气泡</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 8px;">📊</div>
+        <h4>复盘回顾页</h4>
+        <p>总分数 + 逐题点评 + 改进示范 + 对话回放</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 8px;">📝</div>
+        <h4>历史记录页</h4>
+        <p>分数趋势 + 薄弱点标签 + 过往复盘归档</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 未来规划 ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">07 · 产品路线图</div>
+    <h2 class="section-title">下一步迭代方向</h2>
+
+    <div class="feature-row">
+      <div class="feature-num">P1</div>
+      <div class="feature-text">
+        <h4>实时语音打断 <span class="feature-badge badge-amber">规划中</span></h4>
+        <p>AI 正在说话时可以直接打断提问，更贴近真实面试节奏。</p>
+      </div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-num">P2</div>
+      <div class="feature-text">
+        <h4>面试录音回放分析 <span class="feature-badge badge-amber">规划中</span></h4>
+        <p>保存语音录音，AI 分析语速、停顿频率、填充词（"然后""那个"）使用量。</p>
+      </div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-num">P3</div>
+      <div class="feature-text">
+        <h4>目标岗位匹配度评分 <span class="feature-badge badge-amber">规划中</span></h4>
+        <p>粘贴 JD 后，AI 评估你与该岗位的匹配度，并生成针对性的练习题目集合。</p>
+      </div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-num">P4</div>
+      <div class="feature-text">
+        <h4>多人面试模拟 <span class="feature-badge badge-amber">远期</span></h4>
+        <p>模拟群面场景：创始人 + HR + 技术负责人同时在场，轮流提问。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Footer ═══════════════ -->
+<footer>
+  <div class="container">
+    <p>Stitch · AI 面试训练系统 v1.0</p>
+    <p style="margin-top: 4px;">由 <a href="https://github.com/laumj0515-cloud/-stitch-ai-interview-muse" target="_blank">刘美姣</a> 独立设计与开发 · 仅限个人使用</p>
+    <p style="margin-top: 16px; color: var(--text3);">React · DeepSeek API · Web Speech API · Netlify</p>
+  </div>
+</footer>
+
+</body>
+</html>
