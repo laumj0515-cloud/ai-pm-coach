@@ -5,6 +5,7 @@ import { getProfile, getApiKey, saveSession } from '../lib/storage'
 import { interviewerProfiles } from '../data/profiles'
 import { defaultProfile } from '../data/defaultContext'
 import { createSpeechRecognizer, isSpeechSupported } from '../lib/speech'
+import { trackInterviewComplete } from '../lib/analytics'
 import NavBar from '../components/NavBar'
 
 const MAX_ROUNDS = 5
@@ -357,6 +358,7 @@ export default function Interview() {
 
       if (isEnd) {
         setInterviewEnded(true)
+        trackInterviewComplete()
         const finalMessages = [...newMessages, { role: 'assistant', content: reply, isFeedback: true }]
         setMessages(finalMessages)
 

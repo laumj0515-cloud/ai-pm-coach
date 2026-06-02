@@ -1,16 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { interviewerProfiles } from '../data/profiles'
 import { getSessions, getStats } from '../lib/storage'
+import { trackPageView, trackInterviewStart, getSiteStats } from '../lib/analytics'
 
 export default function Home() {
   const navigate = useNavigate()
   const [showJD, setShowJD] = useState(false)
   const [jdText, setJdText] = useState('')
+  const [siteStats, setSiteStats] = useState(null)
   const stats = getStats()
   const sessions = getSessions()
 
+  // Track page view & load site-wide stats
+  useEffect(() => {
+    trackPageView()
+    getSiteStats().then(setSiteStats)
+  }, [])
+
   const handleStart = (mode) => {
+    trackInterviewStart(mode)
     if (mode === 'custom') {
       if (!jdText.trim()) {
         alert('请先粘贴目标岗位的JD')
@@ -32,7 +41,25 @@ export default function Home() {
         <p className="text-sm text-slate-500">AI 面试训练 · 针对性强化</p>
       </div>
 
-      {/* Stats strip */}
+      {/* Stats strip — site-wide */}
+      <div className="px-5 mb-2">
+        <div className="flex gap-3">
+          <div className="flex-1 bg-slate-900 rounded-xl p-3 border border-slate-800/50 text-center">
+            <div className="text-lg font-bold text-brand-400">{siteStats?.visitors ?? '...'}</div>
+            <div className="text-xs text-slate-500">网站访问</div>
+          </div>
+          <div className="flex-1 bg-slate-900 rounded-xl p-3 border border-slate-800/50 text-center">
+            <div className="text-lg font-bold text-emerald-400">{siteStats?.interviews ?? '...'}</div>
+            <div className="text-xs text-slate-500">面试启动</div>
+          </div>
+          <div className="flex-1 bg-slate-900 rounded-xl p-3 border border-slate-800/50 text-center">
+            <div className="text-lg font-bold text-warm-400">{siteStats?.completed ?? '...'}</div>
+            <div className="text-xs text-slate-500">面试完成</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats strip — personal */}
       {stats.total > 0 && (
         <div className="px-5 mb-6">
           <div className="flex gap-3">

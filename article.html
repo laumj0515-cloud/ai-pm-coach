@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从需求到成品：我用 AI 造了一个 AI 产品经理面试教练，所有人都能用</title>
+<style>
+  body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #333;
+    background: #fff;
+  }
+  h1 { font-size: 28px; margin: 0 0 8px; line-height: 1.35; }
+  h2 { font-size: 21px; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #6366f1; }
+  h3 { font-size: 17px; margin: 28px 0 10px; color: #4338ca; }
+  p { margin: 0 0 16px; }
+  .meta { color: #999; font-size: 14px; margin-bottom: 32px; }
+  blockquote {
+    margin: 20px 0;
+    padding: 14px 20px;
+    background: #f5f3ff;
+    border-left: 4px solid #6366f1;
+    color: #4c1d95;
+    font-size: 15px;
+    border-radius: 0 8px 8px 0;
+  }
+  ul, ol { margin: 0 0 16px; padding-left: 24px; }
+  li { margin-bottom: 6px; }
+  strong { color: #1e1b4b; }
+  .highlight-box {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: #fafaf9;
+    border: 1px solid #e7e5e4;
+    border-radius: 12px;
+  }
+  .highlight-box h4 { margin: 0 0 8px; color: #6366f1; font-size: 15px; }
+  .highlight-box p { margin: 0; font-size: 14px; color: #57534e; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #6366f1;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e7e5e4;
+  }
+  tr:nth-child(even) td { background: #fafaf9; }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .tag-green { background: #ecfdf5; color: #065f46; }
+  .tag-red { background: #fef2f2; color: #991b1b; }
+  .tag-amber { background: #fffbeb; color: #92400e; }
+  .ending {
+    margin-top: 48px;
+    padding: 24px;
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .ending a { color: #6366f1; font-weight: 600; word-break: break-all; }
+  @media (max-width: 640px) {
+    body { font-size: 15px; padding: 20px 16px 60px; }
+    h1 { font-size: 23px; }
+    h2 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>从需求到成品：我用 AI 造了一个 AI 产品经理面试教练，所有人都能用</h1>
+<p class="meta">刘美姣 · 2026年6月 · 阅读约 8 分钟</p>
+
+<blockquote>
+  一个 AI 产品经理在求职中发现了行业共性痛点，用 DeepSeek API + React 做了一个 AI 面试训练工具。它不是一个题库，而是一个能记住你背景、针对你弱点追问、每答即评的 AI 面试教练。这篇文章记录从需求挖掘到交付上线的完整过程。
+</blockquote>
+
+<h2>一、AI PM 求职者的共性痛点</h2>
+
+<p>今年 AI 产品经理岗位集中爆发，但供需两端的错配也很明显。我在这轮求职中访谈了十几位同行，加上自己的面试经历，提炼出四个被反复提及的痛点：</p>
+
+<table>
+  <tr><th>痛点</th><th>具体表现</th><th>为什么现有方案不行</th></tr>
+  <tr>
+    <td><strong>岗位定义混乱</strong></td>
+    <td>JD 写"应用层 AI PM"，面试问的是 DeepSeek 参数量、embedding 原理、是否拆解过开源 LLM 代码。本质招的是 Agent 架构师</td>
+    <td>通用 AI 对话不会帮你判断"这问题越界了，不是你该答的方向"</td>
+  </tr>
+  <tr>
+    <td><strong>表达跳跃、结构缺失</strong></td>
+    <td>很多 PM 思维密度高但输出缺乏结构。面试讲了三件事，对方只记住半件</td>
+    <td>录音回听能发现问题，但缺少一个人实时打断、帮你把散的思路压缩成有结构的回答</td>
+  </tr>
+  <tr>
+    <td><strong>数据调用不熟练</strong></td>
+    <td>明明有真实项目数据和成果，但面试紧张时想不起来调用。产品经理的日常是看数据，面试时却讲不出数据</td>
+    <td>没有工具在对话训练中帮你建立"用数据说话"的肌肉记忆</td>
+  </tr>
+  <tr>
+    <td><strong>缺少针对性追问训练</strong></td>
+    <td>对着镜子练、找朋友模拟，都无法还原真实面试的压迫感和追问深度</td>
+    <td>需要一个会打断、会追问"不够具体"的对手方</td>
+  </tr>
+</table>
+
+<p>这些痛点不是某个人的问题，而是<strong>AI PM 这个新兴岗位在行业标准成型期出现的结构性摩擦</strong>。JD 和实际面试内容不一致、候选人不知道如何展示跨界能力、面试官追问的方向难以预测——每个人都或多或少会遇到。</p>
+
+<p>于是我决定做一个工具，解决"AI PM 面试训练"这件事。</p>
+
+<h2>二、产品定义：不做什么比做什么更重要</h2>
+
+<h3>2.1 目标用户</h3>
+<p>正在求职的 AI 产品经理。无论是有经验在看的，还是从互联网 PM 转 AI 方向的，还是 Gap 期在准备面试的——只要你需要在面试中讲清楚你的项目，就是这个工具的目标用户。</p>
+
+<h3>2.2 三个设计原则</h3>
+
+<div class="highlight-box">
+  <h4>原则一：不是题库，是对话引擎</h4>
+  <p>市面上已有大量面试题库产品，但刷题解决不了"说不清楚"的问题。这个工具的核心价值不是题目本身，而是听懂你说了什么、判断你是否真正回答了问题——这对 AI 来说是最难也最重要的能力。</p>
+</div>
+
+<div class="highlight-box">
+  <h4>原则二：严苛型反馈，而非鼓励型</h4>
+  <p>求职者对敷衍的"很好"早已免疫。有效的训练需要直接、具体的批评。哪里逻辑断了、哪个词用得不好、怎么改——这种反馈才真正有价值。</p>
+</div>
+
+<div class="highlight-box">
+  <h4>原则三：帮助建立边界感，不只是练表达</h4>
+  <p>应用层 AI PM 不需要回答模型训推、PyTorch 实现细节等问题。工具要能帮用户识别——"这类问题越界了，不是你该答的方向"，而不是让候选人在不擅长的问题上硬撑。</p>
+</div>
+
+<h3>2.3 功能边界</h3>
+<ul>
+  <li><strong>做：</strong>模拟面试对话、每题即时反馈、语音输入、个人档案记忆、进度追踪</li>
+  <li><strong>不做：</strong>多用户系统、云端存储、固定题库、视频面试</li>
+  <li><strong>技术约束：</strong>纯前端 + API 调用，零服务器成本，数据全存用户本地浏览器</li>
+</ul>
+
+<h2>三、五个核心功能模块</h2>
+
+<h3>3.1 四种面试模式，覆盖真实场景</h3>
+<p>不同角色的面试官关注点完全不同。把面试拆成四种典型场景，每种配独立的 AI 人设和追问策略：</p>
+
+<table>
+  <tr><th>模式</th><th>面试官视角</th><th>追问重点</th></tr>
+  <tr><td>🚀 初创创始人</td><td>CEO / 创始人</td><td>独立扛事能力、0→1 经验、遇到瓶颈怎么破局</td></tr>
+  <tr><td>💼 HR 面试官</td><td>HR 负责人</td><td>职业稳定性、薪资预期、Gap 解释、团队匹配度</td></tr>
+  <tr><td>⚙️ 技术 PM 负责人</td><td>有技术背景的产品 Lead</td><td>产品架构逻辑、AI 理解深度、数据思维（不越界到模型层）</td></tr>
+  <tr><td>💰 薪资谈判</td><td>HR 谈薪场景</td><td>AI 持有隐蔽预算区间，模拟真实议价博弈，练报价策略</td></tr>
+</table>
+
+<p>此外支持<strong>「自定义 JD」模式</strong>——粘贴目标岗位的职位描述，AI 自动生成针对该岗位的面试题。这意味着任何人的任何岗位都可以练。</p>
+
+<h3>3.2 个人档案系统：让 AI 认识你</h3>
+
+<p>这是区别于通用 AI 聊天工具的核心设计。每位用户有一个可编辑的「个人档案」面板，结构化填入自己的信息：</p>
+
+<div class="highlight-box">
+  <h4>档案字段（全部可编辑）</h4>
+  <p>基本信息 · 教育背景 · 工作经历 · 项目详情（含数据）· 技能工具栈 · 求职筛选标准 · 已知薄弱点 · 薪资预期 · 自定义备注</p>
+</div>
+
+<p>档案内容自动注入每场面试的 system prompt。AI 面试官从一开始就"认识你"——知道你的项目、你的数据、你的薄弱点。不用每场面试重新交代一遍背景。所有数据存储在浏览器本地（localStorage），<strong>不上传任何服务器</strong>。</p>
+
+<h3>3.3 每题即时反馈（核心设计决策）</h3>
+
+<p>这个功能踩过坑，值得展开讲。第一版是"面试 5-8 轮 → 一次性复盘"——用户回答完所有问题后，AI 统一给分和点评。测试后发现两个致命缺陷：</p>
+
+<ol>
+  <li><strong>对话越长，复盘质量越差。</strong>30 分钟对话传入 DeepSeek，模型在超长文本中出现注意力衰减，甚至误判为"候选人未回答任何问题"。</li>
+  <li><strong>反馈延迟 = 错误固化。</strong>等到最后才知道问题在哪，前面的错误模式已经重复了好几轮。</li>
+</ol>
+
+<p>第二版重构为<strong>「每答一题，即时反馈」</strong>：</p>
+
+<div class="highlight-box">
+  <p style="font-size:15px; line-height:2">
+    <span class="tag tag-green">✅ 好的</span> 你用项目的具体数据（82% 完成率）来支撑论点，先结论后展开，逻辑清晰。<br>
+    <span class="tag tag-red">❌ 改善</span> 第三轮追问时你绕开了核心问题——面试官问你为什么选 5 象限而不是 3 象限，你说了一分钟但始终没正面回答。<br>
+    <span class="tag tag-amber">💡 建议</span> 直接说："我选 5 象限是数据驱动决策——Life 和 Work 场景的问题结构完全不同，混在一起模型输出噪音。Decision 和 Reflect 的底层逻辑也不一样。"
+  </p>
+</div>
+
+<p><strong>绿色肯定正确方向、红色指出具体问题、蓝色给出改进示范。</strong>5 轮全部结束后给出总分 + 一句话总结 + 最需改进的一个点。</p>
+
+<h3>3.4 语音通话模式</h3>
+
+<p>面试最终是说话。打字练和开口说是两回事。基于浏览器原生 Web Speech API 实现了连续语音对话：</p>
+<ul>
+  <li>说话时实时转文字上屏</li>
+  <li>3 秒静默自动发送（保留思考停顿，不会因为你停下来想就截断）</li>
+  <li>AI 回复通过 TTS 语音朗读</li>
+  <li>全程免提，像打电话一样，做家务、通勤时都能练</li>
+</ul>
+<p>支持 Chrome 和 Safari（Safari 需要 HTTPS，部署后自带）。</p>
+
+<h3>3.5 进度追踪</h3>
+<p>每次练习自动记录：面试模式、轮数、总分、薄弱点标签。历史页面展示练习次数趋势、平均分数、反复出现的高频薄弱点——帮用户定位自己真正的短板。</p>
+
+<h2>四、技术实现</h2>
+
+<table>
+  <tr><th>层</th><th>选型</th><th>理由</th></tr>
+  <tr><td>前端框架</td><td>React 18 + Vite</td><td>轻量，构建快，单页应用最优解</td></tr>
+  <tr><td>样式</td><td>Tailwind CSS</td><td>原子化 CSS，移动端适配效率高</td></tr>
+  <tr><td>AI 引擎</td><td>DeepSeek Chat API</td><td>中文能力强，OpenAI 兼容协议，成本极低</td></tr>
+  <tr><td>语音</td><td>Web Speech API</td><td>浏览器原生，零依赖，两个 API 覆盖输入输出</td></tr>
+  <tr><td>数据</td><td>localStorage</td><td>纯本地存储，零服务器，隐私友好，即开即用</td></tr>
+  <tr><td>路由</td><td>HashRouter</td><td>兼容静态托管，无需服务端重定向配置</td></tr>
+  <tr><td>部署</td><td>Netlify</td><td>Git push 即部署，自带 HTTPS，国内可访问</td></tr>
+</table>
+
+<p>架构极简：纯前端静态页面 + API 调用。没有数据库、没有后端服务、没有用户系统。整个项目约 2,000 行代码，28 个文件。</p>
+
+<h2>五、踩过的四个坑</h2>
+
+<ol>
+  <li><strong>长对话复盘不可靠。</strong>单次 API 调用传入超长文本时，DeepSeek 的注意力衰减严重。30 分钟对话的复盘准确率断崖下降。解决方案是把"事后一次性复盘"改为"每题即时反馈"，单次处理文本长度大幅缩短，准确率显著提升。</li>
+  <li><strong>Safari 语音需要 HTTPS。</strong>Web Speech API 在 Safari 上要求安全上下文（HTTPS 或 localhost）。本地开发用 @vitejs/plugin-basic-ssl 生成自签名证书，生产环境 Netlify 自带 HTTPS 自动解决。</li>
+  <li><strong>每轮对话必须追加明确指令。</strong>仅靠 system prompt 不够。实际测试中发现，非最后一轮如果没有追加"请先给反馈，再问下一题"的用户消息，AI 会退化为只提问不点评。改为每轮动态构造指令后问题消失。</li>
+  <li><strong>localStorage 配额静默失败。</strong>长时间对话导致 localStorage.setItem 超出配额时会静默失败，面试记录丢失。全部写操作加了 try-catch，异常时提醒用户清理历史记录。</li>
+</ol>
+
+<h2>六、产品数据</h2>
+
+<ul>
+  <li>开发周期：3 天（初始化 → 上线）</li>
+  <li>代码量：约 2,000 行，28 个文件</li>
+  <li>单场面试成本：DeepSeek Chat API，5 轮约 6,000-8,000 tokens，约 ¥0.03-0.05</li>
+  <li>部署：Netlify 免费层，全球 CDN，国内直连</li>
+  <li>隐私：零数据采集，所有个人信息仅存用户本地浏览器</li>
+</ul>
+
+<h2>七、后续计划</h2>
+
+<table>
+  <tr><th>优先级</th><th>功能</th><th>说明</th></tr>
+  <tr><td>P1</td><td>实时语音打断</td><td>AI 说话时可直接打断，更贴近真实面试节奏</td></tr>
+  <tr><td>P2</td><td>语音分析</td><td>分析语速、停顿频率、填充词（"然后""那个"）使用量</td></tr>
+  <tr><td>P3</td><td>JD 匹配度评分</td><td>粘贴 JD → AI 评估匹配度 → 生成针对性练习题目集</td></tr>
+  <tr><td>P4</td><td>多人面试模拟</td><td>创始人 + HR + 技术负责人同时在场，群面场景</td></tr>
+</table>
+
+<div class="ending">
+  <p style="font-size:17px; font-weight:700; color:#4c1d95; margin-bottom: 8px;">🔗 在线体验</p>
+  <p style="font-size:15px; color:#57534e; margin-bottom: 12px;">
+    网站已部署上线，打开即用。需要自备 DeepSeek API Key（在 DeepSeek 官网免费注册即可获取）。<br>
+    所有数据存储在你的浏览器本地，不会有任何信息上传到服务器。
+  </p>
+  <p style="font-size:16px;"><a href="https://ai-pm-mock.netlify.app/" target="_blank">https://ai-pm-mock.netlify.app/</a></p>
+  <p style="font-size:13px; color:#a8a29e; margin-top: 16px;">
+    GitHub 开源：github.com/laumj0515-cloud/-stitch-ai-interview-muse<br>
+    欢迎提 Issue 和 PR
+  </p>
+</div>
+
+</body>
+</html>

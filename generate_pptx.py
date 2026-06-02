@@ -96,7 +96,7 @@ add_rect(slide, Inches(0), Inches(0), Inches(0.08), H, fill_color=BRAND)
 
 add_section_label(slide, 'AI PM · 面试训练系统')
 add_text_box(slide, Inches(1), Inches(1.8), Inches(10), Inches(1.2),
-    'Stitch', font_size=64, color=WHITE, bold=True)
+    'AI PM Coach', font_size=64, color=WHITE, bold=True)
 add_text_box(slide, Inches(1), Inches(2.9), Inches(10), Inches(0.8),
     'AI 面试训练系统 — 产品说明书', font_size=22, color=GRAY)
 add_text_box(slide, Inches(1), Inches(4.2), Inches(10), Inches(0.5),
@@ -241,9 +241,9 @@ for i, f in enumerate(profile_features):
 slide = prs.slides.add_slide(prs.slide_layouts[6])
 add_bg(slide)
 add_section_label(slide, '07 · 为什么要做这个')
-add_title(slide, '通用 AI 聊天 vs Stitch')
+add_title(slide, '通用 AI 聊天 vs AI PM Coach')
 
-headers = ['维度', '通用 AI 聊天', 'Stitch']
+headers = ['维度', '通用 AI 聊天', 'AI PM Coach']
 rows = [
     ['记住你的项目', '需要每次重新交代', '✅ 档案持久注入 system prompt'],
     ['追问深度', '泛泛，不针对个人弱点', '✅ 知道你的薄弱点，定向深挖'],
@@ -315,13 +315,13 @@ add_rect(slide, Inches(0), Inches(0), Inches(0.08), H, fill_color=BRAND)
 add_text_box(slide, Inches(1), Inches(2.2), Inches(10), Inches(1),
     '用 AI 面试官，把每一次练习变成进步', font_size=36, color=WHITE, bold=True)
 add_text_box(slide, Inches(1), Inches(3.4), Inches(10), Inches(0.5),
-    'Stitch v1.0  ·  刘美姣 独立设计与开发', font_size=16, color=GRAY)
+    'AI PM Coach v1.0  ·  刘美姣 独立设计与开发', font_size=16, color=GRAY)
 add_text_box(slide, Inches(1), Inches(4.2), Inches(10), Inches(0.5),
     'React · DeepSeek API · Web Speech API · Netlify', font_size=14, color=GRAY2)
 add_text_box(slide, Inches(1), Inches(5.5), Inches(10), Inches(0.5),
     'github.com/laumj0515-cloud/-stitch-ai-interview-muse', font_size=12, color=BRAND2)
 
 # ── Save ──
-output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Stitch_AI面试训练系统_产品说明书.pptx')
+output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'AI_PM_Coach_产品说明书.pptx')
 prs.save(output_path)
 print(f'PPTX saved to: {output_path}')
