@@ -354,6 +354,8 @@ export default function Interview() {
         })
       }
 
+      const reply = await chat(allMessages, apiKey, { temperature: 0.8, maxTokens: isLastRound ? 768 : 512 })
+
       const isEnd = isLastRound && (reply.includes('面试到此结束') || reply.includes('📊'))
 
       if (isEnd) {
