@@ -282,9 +282,9 @@ export default function Interview() {
       const opening = await chat(
         [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: '开始面试。简单介绍自己（面试官），然后问第1个问题。' },
+          { role: 'user', content: '开始面试。你只需要做两件事：(1)用一句话介绍自己作为面试官的身份 (2)直接问第1个问题。注意：现在绝对不要用✅❌💡格式，不要给任何反馈、示范或建议。纯提问即可。' },
         ],
-        apiKey, { temperature: 0.8, maxTokens: 512 }
+        apiKey, { temperature: 0.8, maxTokens: 384 }
       )
       setMessages([{ role: 'assistant', content: opening, isFeedback: false }])
       if (voiceMode && ttsEnabled) {

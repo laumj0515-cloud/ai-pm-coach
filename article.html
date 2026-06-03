@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>从需求到成品：我用 AI 造了一个 AI 产品经理面试教练，所有人都能用</title>
+<title>从需求到成品：一个 AI 产品经理的面试训练工具诞生记</title>
 <style>
   body {
     max-width: 720px;
@@ -87,11 +87,11 @@
 </head>
 <body>
 
-<h1>从需求到成品：我用 AI 造了一个 AI 产品经理面试教练，所有人都能用</h1>
+<h1>从需求到成品：一个 AI 产品经理的面试训练工具诞生记</h1>
 <p class="meta">刘美姣 · 2026年6月 · 阅读约 8 分钟</p>
 
 <blockquote>
-  一个 AI 产品经理在求职中发现了行业共性痛点，用 DeepSeek API + React 做了一个 AI 面试训练工具。它不是一个题库，而是一个能记住你背景、针对你弱点追问、每答即评的 AI 面试教练。这篇文章记录从需求挖掘到交付上线的完整过程。
+  求职过程中发现市面上的面试辅导工具不够"懂自己"，于是用 DeepSeek API + React 做了一个 AI 面试训练工具。这篇文章记录从挖掘需求到交付成品的完整产品思考过程。
 </blockquote>
 
 <h2>一、AI PM 求职者的共性痛点</h2>
@@ -226,7 +226,7 @@
   <tr><td>语音</td><td>Web Speech API</td><td>浏览器原生，零依赖，两个 API 覆盖输入输出</td></tr>
   <tr><td>数据</td><td>localStorage</td><td>纯本地存储，零服务器，隐私友好，即开即用</td></tr>
   <tr><td>路由</td><td>HashRouter</td><td>兼容静态托管，无需服务端重定向配置</td></tr>
-  <tr><td>部署</td><td>Netlify</td><td>Git push 即部署，自带 HTTPS，国内可访问</td></tr>
+  <tr><td>部署</td><td>GitHub Pages</td><td>静态托管，push 即部署，零运维</td></tr>
 </table>
 
 <p>架构极简：纯前端静态页面 + API 调用。没有数据库、没有后端服务、没有用户系统。整个项目约 2,000 行代码，28 个文件。</p>
@@ -235,7 +235,7 @@
 
 <ol>
   <li><strong>长对话复盘不可靠。</strong>单次 API 调用传入超长文本时，DeepSeek 的注意力衰减严重。30 分钟对话的复盘准确率断崖下降。解决方案是把"事后一次性复盘"改为"每题即时反馈"，单次处理文本长度大幅缩短，准确率显著提升。</li>
-  <li><strong>Safari 语音需要 HTTPS。</strong>Web Speech API 在 Safari 上要求安全上下文（HTTPS 或 localhost）。本地开发用 @vitejs/plugin-basic-ssl 生成自签名证书，生产环境 Netlify 自带 HTTPS 自动解决。</li>
+  <li><strong>Safari 语音需要 HTTPS。</strong>Web Speech API 在 Safari 上要求安全上下文（HTTPS 或 localhost）。本地开发用 @vitejs/plugin-basic-ssl 生成自签名证书，生产环境 GitHub Pages 自带 HTTPS 自动解决。</li>
   <li><strong>每轮对话必须追加明确指令。</strong>仅靠 system prompt 不够。实际测试中发现，非最后一轮如果没有追加"请先给反馈，再问下一题"的用户消息，AI 会退化为只提问不点评。改为每轮动态构造指令后问题消失。</li>
   <li><strong>localStorage 配额静默失败。</strong>长时间对话导致 localStorage.setItem 超出配额时会静默失败，面试记录丢失。全部写操作加了 try-catch，异常时提醒用户清理历史记录。</li>
 </ol>
@@ -246,7 +246,7 @@
   <li>开发周期：3 天（初始化 → 上线）</li>
   <li>代码量：约 2,000 行，28 个文件</li>
   <li>单场面试成本：DeepSeek Chat API，5 轮约 6,000-8,000 tokens，约 ¥0.03-0.05</li>
-  <li>部署：Netlify 免费层，全球 CDN，国内直连</li>
+  <li>部署：GitHub Pages 静态托管</li>
   <li>隐私：零数据采集，所有个人信息仅存用户本地浏览器</li>
 </ul>
 
@@ -261,15 +261,8 @@
 </table>
 
 <div class="ending">
-  <p style="font-size:17px; font-weight:700; color:#4c1d95; margin-bottom: 8px;">🔗 在线体验</p>
-  <p style="font-size:15px; color:#57534e; margin-bottom: 12px;">
-    网站已部署上线，打开即用。需要自备 DeepSeek API Key（在 DeepSeek 官网免费注册即可获取）。<br>
-    所有数据存储在你的浏览器本地，不会有任何信息上传到服务器。
-  </p>
-  <p style="font-size:16px;"><a href="https://ai-pm-mock.netlify.app/" target="_blank">https://ai-pm-mock.netlify.app/</a></p>
-  <p style="font-size:13px; color:#a8a29e; margin-top: 16px;">
-    GitHub 开源：github.com/laumj0515-cloud/-stitch-ai-interview-muse<br>
-    欢迎提 Issue 和 PR
+  <p style="font-size:15px; color:#57534e;">
+    这个工具从需求到上线花了 3 天，目前仍在迭代中。如果你也在求职 AI 产品经理，希望能从这篇文章里获得一些产品思路上的启发。
   </p>
 </div>
 
